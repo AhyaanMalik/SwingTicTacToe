@@ -114,11 +114,15 @@ public class TicTacToe extends MouseAdapter implements Runnable {
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
+        boolean validMove = false;
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (x > i * BOARD_DIMENSIONS / 3 && x < (i + 1) * BOARD_DIMENSIONS / 3 &&
-                        y > j * BOARD_DIMENSIONS / 3 && y < (j + 1) * BOARD_DIMENSIONS / 3) {
+                if ((x > i * BOARD_DIMENSIONS / 3 && x < (i + 1) * BOARD_DIMENSIONS / 3 &&
+                        y > j * BOARD_DIMENSIONS / 3 && y < (j + 1) * BOARD_DIMENSIONS / 3)
+                        && boardColors[i][j] == Color.WHITE) {
+                    validMove = true;
+
                     if (isXTurn) {
                         boardColors[i][j] = Color.RED;
                     } else {
@@ -145,7 +149,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             }
             isXTurn = true;
             panel.repaint();
-        } else {
+        } else if (validMove){
             isXTurn = !isXTurn;
         }
 
