@@ -29,6 +29,11 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private boolean isXTurn = true;
 
+    private JLabel score;
+
+    private int xScore = 0;
+    private int oScore = 0;
+
     public TicTacToe() {
 
         boardColors = new Color[3][3];
@@ -63,9 +68,10 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
         JPanel outerPanel = new JPanel(new BorderLayout());
         JLabel mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
+        score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
         outerPanel.setPreferredSize(new Dimension(BOARD_DIMENSIONS + 100, BOARD_DIMENSIONS + 100));
         outerPanel.add(mainText, BorderLayout.NORTH);
-
+        outerPanel.add(score, BorderLayout.SOUTH);
         // JPanel with a paintComponent method using an anonymous class.
         panel = new JPanel() {
             @Override
@@ -138,9 +144,12 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         if (checkWin()) {
             if (isXTurn) {
                 System.out.println("X wins!");
+                xScore++;
             } else {
                 System.out.println("O wins!");
+                oScore++;
             }
+            score.setText("Score: " + xScore + " - " + oScore);
             // Reset the board
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
@@ -149,7 +158,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             }
             isXTurn = true;
             panel.repaint();
-        } else if (validMove){
+        } else if (validMove) {
             isXTurn = !isXTurn;
         }
 
