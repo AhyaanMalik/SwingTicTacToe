@@ -28,7 +28,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         boardColors = new Color[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                boardColors[i][j] = Color.BLACK;
+                boardColors[i][j] = Color.WHITE;
             }
         }
 
@@ -59,6 +59,13 @@ public class TicTacToe extends MouseAdapter implements Runnable {
                         g.fillRect(i * BOARD_DIMENSIONS / 3, j * BOARD_DIMENSIONS / 3, BOARD_DIMENSIONS / 3,
                                 BOARD_DIMENSIONS / 3);
                     }
+                }
+
+                // BLACK GRID LINES
+                g.setColor(Color.BLACK);
+                for (int i = 0; i < 2; i++) {
+                    g.drawLine((i + 1) * BOARD_DIMENSIONS / 3, 0, (i + 1) * BOARD_DIMENSIONS / 3, BOARD_DIMENSIONS);
+                    g.drawLine(0, (i + 1) * BOARD_DIMENSIONS / 3, BOARD_DIMENSIONS, (i + 1) * BOARD_DIMENSIONS / 3);
                 }
 
             }
