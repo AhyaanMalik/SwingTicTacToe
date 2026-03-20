@@ -17,7 +17,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private JPanel panel;
 
-    private static final int BOARD_DIMENSIONS = 800;
+    private static final int BOARD_DIMENSIONS = 600;
 
     private Color[][] boardColors;
 
