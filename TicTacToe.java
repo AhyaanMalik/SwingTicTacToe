@@ -80,6 +80,9 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
             }
         };
+
+        panel.setBackground(Color.WHITE);
+
         // Add a mouse listener to the panel to respond to mouse events.
         panel.addMouseListener(this);
 
@@ -116,10 +119,61 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             }
 
         }
-
-        isXTurn = !isXTurn;
         panel.repaint();
 
+        if (checkWin()) {
+            if (isXTurn) {
+                System.out.println("X wins!");
+            } else {
+                System.out.println("O wins!");
+            }
+            // Reset the board
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    boardColors[i][j] = Color.WHITE;
+                }
+            }
+            isXTurn = true;
+            panel.repaint();
+        } else {
+            isXTurn = !isXTurn;
+        }
+
+    }
+
+    /**
+     * Checks the board for a win condition.
+     * 
+     * @return true if there is a win condition on the board, false otherwise
+     */
+    public boolean checkWin() {
+        // Check rows
+        for (int i = 0; i < 3; i++) {
+            if (boardColors[i][0] != Color.WHITE && boardColors[i][0] == boardColors[i][1]
+                    && boardColors[i][1] == boardColors[i][2]) {
+                return true;
+            }
+        }
+
+        // Check columns
+        for (int j = 0; j < 3; j++) {
+            if (boardColors[0][j] != Color.WHITE && boardColors[0][j] == boardColors[1][j]
+                    && boardColors[1][j] == boardColors[2][j]) {
+                return true;
+            }
+        }
+
+        // Check diagonals
+        if (boardColors[0][0] != Color.WHITE && boardColors[0][0] == boardColors[1][1]
+                && boardColors[1][1] == boardColors[2][2]) {
+            return true;
+        }
+        if (boardColors[0][2] != Color.WHITE && boardColors[0][2] == boardColors[1][1]
+                && boardColors[1][1] == boardColors[2][0]) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
