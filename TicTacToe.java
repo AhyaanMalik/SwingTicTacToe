@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -21,6 +22,8 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private Color[][] boardColors;
 
+    private Point[][] boardCenters;
+
     private boolean isXTurn = true;
 
     public TicTacToe() {
@@ -29,6 +32,14 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 boardColors[i][j] = Color.WHITE;
+            }
+        }
+
+        boardCenters = new Point[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                boardCenters[i][j] = new Point(i * BOARD_DIMENSIONS / 3 + BOARD_DIMENSIONS / 6,
+                        j * BOARD_DIMENSIONS / 3 + BOARD_DIMENSIONS / 6);
             }
         }
 
@@ -56,8 +67,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         g.setColor(boardColors[i][j]);
-                        g.fillRect(i * BOARD_DIMENSIONS / 3, j * BOARD_DIMENSIONS / 3, BOARD_DIMENSIONS / 3,
-                                BOARD_DIMENSIONS / 3);
+                        g.fillRect(boardCenters[i][j].x - 10, boardCenters[i][j].y - 10, 20, 20);
                     }
                 }
 
