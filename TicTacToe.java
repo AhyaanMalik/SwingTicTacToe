@@ -1,4 +1,4 @@
-
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -41,6 +41,14 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
+
+
+                g.setColor(Color.BLUE);
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        g.fillRect(i*BOARD_DIMENSIONS/3, j*BOARD_DIMENSIONS/3, BOARD_DIMENSIONS/3, BOARD_DIMENSIONS/3);
+                    }
+                }
 
             }
         };
