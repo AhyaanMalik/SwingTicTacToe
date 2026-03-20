@@ -29,6 +29,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private boolean isXTurn = true;
 
+    private JLabel mainText;
     private JLabel score;
 
     private int xScore = 0;
@@ -67,7 +68,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         frame.addMouseListener(this);
 
         JPanel outerPanel = new JPanel(new BorderLayout());
-        JLabel mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
+        mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
         score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
         outerPanel.setPreferredSize(new Dimension(BOARD_DIMENSIONS + 100, BOARD_DIMENSIONS + 100));
         outerPanel.add(mainText, BorderLayout.NORTH);
@@ -160,6 +161,12 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             panel.repaint();
         } else if (validMove) {
             isXTurn = !isXTurn;
+
+            if (isXTurn) {
+                mainText.setText("X's turn");
+            } else {
+                mainText.setText("O's turn");
+            }
         }
 
     }
@@ -197,6 +204,21 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         }
 
         return false;
+    }
+
+    /**
+     * Checks the board for a draw condition (all squares filled with no winner).
+     * @return true if all squares are filled and there is no winner, false otherwise
+     */
+    public boolean checkFilled() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (boardColors[i][j] == Color.WHITE) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
