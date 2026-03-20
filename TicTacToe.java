@@ -21,12 +21,14 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private Color[][] boardColors;
 
+    private boolean isXTurn = true;
+
     public TicTacToe() {
 
         boardColors = new Color[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                boardColors[i][j] = Color.BLUE;
+                boardColors[i][j] = Color.BLACK;
             }
         }
 
@@ -87,11 +89,18 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             for (int j = 0; j < 3; j++) {
                 if (x > i * BOARD_DIMENSIONS / 3 && x < (i + 1) * BOARD_DIMENSIONS / 3 &&
                         y > j * BOARD_DIMENSIONS / 3 && y < (j + 1) * BOARD_DIMENSIONS / 3) {
-                    boardColors[i][j] = Color.RED;
+                    if (isXTurn) {
+                        boardColors[i][j] = Color.RED;
+                    } else {
+                        boardColors[i][j] = Color.BLUE;
+                    }
                 }
+
             }
+
         }
 
+        isXTurn = !isXTurn;
         panel.repaint();
 
     }
