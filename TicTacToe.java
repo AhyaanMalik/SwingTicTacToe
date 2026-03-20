@@ -19,7 +19,16 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private static final int BOARD_DIMENSIONS = 800;
 
+    private Color[][] boardColors;
+
     public TicTacToe() {
+
+        boardColors = new Color[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                boardColors[i][j] = Color.BLUE;
+            }
+        }
 
     }
 
@@ -42,11 +51,11 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-
-                g.setColor(Color.BLUE);
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        g.fillRect(i*BOARD_DIMENSIONS/3, j*BOARD_DIMENSIONS/3, BOARD_DIMENSIONS/3, BOARD_DIMENSIONS/3);
+                        g.setColor(boardColors[i][j]);
+                        g.fillRect(i * BOARD_DIMENSIONS / 3, j * BOARD_DIMENSIONS / 3, BOARD_DIMENSIONS / 3,
+                                BOARD_DIMENSIONS / 3);
                     }
                 }
 
@@ -71,6 +80,19 @@ public class TicTacToe extends MouseAdapter implements Runnable {
      */
     @Override
     public void mousePressed(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (x > i * BOARD_DIMENSIONS / 3 && x < (i + 1) * BOARD_DIMENSIONS / 3 &&
+                        y > j * BOARD_DIMENSIONS / 3 && y < (j + 1) * BOARD_DIMENSIONS / 3) {
+                    boardColors[i][j] = Color.RED;
+                }
+            }
+        }
+
+        panel.repaint();
 
     }
 
