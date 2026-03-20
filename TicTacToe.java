@@ -17,6 +17,8 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private JPanel panel;
 
+    private static final int BOARD_DIMENSIONS = 800;
+
     public TicTacToe() {
 
     }
@@ -30,7 +32,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         JFrame frame = new JFrame("Tic Tac Toe");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(
-                new Dimension(800, 800));
+                new Dimension(BOARD_DIMENSIONS, BOARD_DIMENSIONS));
         frame.setResizable(false);
         frame.addMouseListener(this);
 
