@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Dimension;
@@ -6,6 +7,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 /**
@@ -58,6 +61,11 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         frame.setResizable(false);
         frame.addMouseListener(this);
 
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        JLabel mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
+        outerPanel.setPreferredSize(new Dimension(BOARD_DIMENSIONS + 100, BOARD_DIMENSIONS + 100));
+        outerPanel.add(mainText, BorderLayout.NORTH);
+
         // JPanel with a paintComponent method using an anonymous class.
         panel = new JPanel() {
             @Override
@@ -86,7 +94,9 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         // Add a mouse listener to the panel to respond to mouse events.
         panel.addMouseListener(this);
 
-        frame.add(panel);
+        outerPanel.add(panel);
+
+        frame.add(outerPanel);
 
         // Display the window we've created.
         frame.pack();
