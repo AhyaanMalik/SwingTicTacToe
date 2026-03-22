@@ -21,6 +21,8 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private JPanel panel;
 
+    private final Color BACKGROUND_COLOR = Color.PINK;
+
     private static final int BOARD_DIMENSIONS = 600;
 
     private Color[][] boardColors;
@@ -40,7 +42,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         boardColors = new Color[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                boardColors[i][j] = Color.WHITE;
+                boardColors[i][j] = BACKGROUND_COLOR;
             }
         }
 
@@ -82,7 +84,13 @@ public class TicTacToe extends MouseAdapter implements Runnable {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         g.setColor(boardColors[i][j]);
-                        g.fillRect(boardCenters[i][j].x - 10, boardCenters[i][j].y - 10, 20, 20);
+                        if (boardColors[i][j] == Color.RED) {
+                            g.fillRect(boardCenters[i][j].x - 10, boardCenters[i][j].y - 10, 20, 20);
+                        } else if (boardColors[i][j] == Color.BLUE) {
+                            g.fillOval(boardCenters[i][j].x - 20, boardCenters[i][j].y - 20, 40, 40);
+                            g.setColor(BACKGROUND_COLOR);
+                            g.fillOval(boardCenters[i][j].x - 10, boardCenters[i][j].y - 10, 20, 20);
+                        }
                     }
                 }
 
@@ -96,7 +104,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             }
         };
 
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(BACKGROUND_COLOR);
 
         // Add a mouse listener to the panel to respond to mouse events.
         panel.addMouseListener(this);
@@ -127,7 +135,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             for (int j = 0; j < 3; j++) {
                 if ((x > i * BOARD_DIMENSIONS / 3 && x < (i + 1) * BOARD_DIMENSIONS / 3 &&
                         y > j * BOARD_DIMENSIONS / 3 && y < (j + 1) * BOARD_DIMENSIONS / 3)
-                        && boardColors[i][j] == Color.WHITE) {
+                        && boardColors[i][j] == BACKGROUND_COLOR) {
                     validMove = true;
 
                     if (isXTurn) {
@@ -154,7 +162,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             // Reset the board
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    boardColors[i][j] = Color.WHITE;
+                    boardColors[i][j] = BACKGROUND_COLOR;
                 }
             }
             isXTurn = true;
@@ -169,6 +177,19 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             }
         }
 
+        if (checkFilled() && !checkWin()) {
+            System.out.println("It's a draw!");
+            // Reset the board
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    boardColors[i][j] = BACKGROUND_COLOR;
+                }
+            }
+            isXTurn = true;
+            mainText.setText("Tic Tac Toe");
+            panel.repaint();
+        }
+
     }
 
     /**
@@ -179,7 +200,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
     public boolean checkWin() {
         // Check rows
         for (int i = 0; i < 3; i++) {
-            if (boardColors[i][0] != Color.WHITE && boardColors[i][0] == boardColors[i][1]
+            if (boardColors[i][0] != BACKGROUND_COLOR && boardColors[i][0] == boardColors[i][1]
                     && boardColors[i][1] == boardColors[i][2]) {
                 return true;
             }
@@ -187,18 +208,18 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
         // Check columns
         for (int j = 0; j < 3; j++) {
-            if (boardColors[0][j] != Color.WHITE && boardColors[0][j] == boardColors[1][j]
+            if (boardColors[0][j] != BACKGROUND_COLOR && boardColors[0][j] == boardColors[1][j]
                     && boardColors[1][j] == boardColors[2][j]) {
                 return true;
             }
         }
 
         // Check diagonals
-        if (boardColors[0][0] != Color.WHITE && boardColors[0][0] == boardColors[1][1]
+        if (boardColors[0][0] != BACKGROUND_COLOR && boardColors[0][0] == boardColors[1][1]
                 && boardColors[1][1] == boardColors[2][2]) {
             return true;
         }
-        if (boardColors[0][2] != Color.WHITE && boardColors[0][2] == boardColors[1][1]
+        if (boardColors[0][2] != BACKGROUND_COLOR && boardColors[0][2] == boardColors[1][1]
                 && boardColors[1][1] == boardColors[2][0]) {
             return true;
         }
@@ -208,12 +229,14 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     /**
      * Checks the board for a draw condition (all squares filled with no winner).
-     * @return true if all squares are filled and there is no winner, false otherwise
+     * 
+     * @return true if all squares are filled and there is no winner, false
+     *         otherwise
      */
     public boolean checkFilled() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (boardColors[i][j] == Color.WHITE) {
+                if (boardColors[i][j] == BACKGROUND_COLOR) {
                     return false;
                 }
             }
