@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Tic Tac Toe in Swing
@@ -19,7 +21,7 @@ import java.awt.FlowLayout;
  * @author Ahyaan Malik
  * @version 3/20/2026
  */
-public class TicTacToe extends MouseAdapter implements Runnable {
+public class TicTacToe extends MouseAdapter implements ActionListener, Runnable {
 
     private JPanel panel;
 
@@ -77,11 +79,14 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         JPanel outerPanel = new JPanel(new BorderLayout());
         mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
         score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
-        //outerPanel.setPreferredSize(new Dimension(BOARD_DIMENSIONS + 100, BOARD_DIMENSIONS + 100));
+        // outerPanel.setPreferredSize(new Dimension(BOARD_DIMENSIONS + 100,
+        // BOARD_DIMENSIONS + 100));
 
         bottomPanel = new JPanel(new FlowLayout());
         newGame = new JButton("New Game");
+        newGame.addActionListener(this);
         reset = new JButton("Reset");
+        reset.addActionListener(this);
         bottomPanel.add(newGame);
         bottomPanel.add(score);
         bottomPanel.add(reset);
@@ -94,7 +99,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             public Dimension getPreferredSize() {
                 return new Dimension(BOARD_DIMENSIONS, BOARD_DIMENSIONS);
             }
-            
+
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -200,16 +205,23 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         if (checkFilled() && !checkWin()) {
             System.out.println("It's a draw!");
             // Reset the board
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    boardColors[i][j] = BACKGROUND_COLOR;
-                }
-            }
-            isXTurn = true;
-            mainText.setText("Tic Tac Toe");
-            panel.repaint();
+            resetBoard();
         }
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String buttonText = e.getActionCommand();
+
+        if (buttonText.equals("New Game")) {
+            resetBoard();
+        } else if (buttonText.equals("Reset")) {
+            resetBoard();
+            xScore = 0;
+            oScore = 0;
+            score.setText("Score: " + xScore + " - " + oScore);
+        }
     }
 
     /**
@@ -217,7 +229,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
      * 
      * @return true if there is a win condition on the board, false otherwise
      */
-    public boolean checkWin() {
+    private boolean checkWin() {
         // Check rows
         for (int i = 0; i < 3; i++) {
             if (boardColors[i][0] != BACKGROUND_COLOR && boardColors[i][0] == boardColors[i][1]
@@ -253,7 +265,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
      * @return true if all squares are filled and there is no winner, false
      *         otherwise
      */
-    public boolean checkFilled() {
+    private boolean checkFilled() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (boardColors[i][j] == BACKGROUND_COLOR) {
@@ -262,6 +274,22 @@ public class TicTacToe extends MouseAdapter implements Runnable {
             }
         }
         return true;
+    }
+
+    /**
+     * Resets the board
+     * 
+     * 
+     */
+    private void resetBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                boardColors[i][j] = BACKGROUND_COLOR;
+            }
+        }
+        isXTurn = true;
+        mainText.setText("Tic Tac Toe");
+        panel.repaint();
     }
 
     /**
