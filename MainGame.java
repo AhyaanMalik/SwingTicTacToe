@@ -1,15 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.smartcardio.Card;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import java.awt.CardLayout;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
@@ -23,6 +20,14 @@ import java.awt.event.ActionListener;
  * @version 3/20/2026
  */
 public class MainGame implements ActionListener, Runnable {
+
+    private static final String MENU_CARD = "Menu";
+    private static final String NORMAL_MODE_CARD = "Normal Mode";
+    private static final String DICE_MODE_CARD = "Dice Mode";
+
+    private CardLayout cardLayout;
+    private JPanel cards;
+    private JFrame frame;
 
     private JPanel panel;
 
@@ -45,9 +50,13 @@ public class MainGame implements ActionListener, Runnable {
     @Override
     public void run() {
         // Our basic GUI setup, a JFrame with a JPanel inside it.
-        JFrame frame = new JFrame("Main Menu");
+        frame = new JFrame("Main Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
+
+        cardLayout = new CardLayout();
+        cards = new JPanel(cardLayout);
+
         panel = new JPanel(new BorderLayout()) {
             @Override
             public Dimension getPreferredSize() {
