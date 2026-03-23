@@ -25,7 +25,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private final Color BACKGROUND_COLOR = Color.PINK;
 
-    private static final int BOARD_DIMENSIONS = 810;
+    private static final int BOARD_DIMENSIONS = 600;
 
     private Color[][] boardColors;
 
@@ -71,15 +71,13 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         // Our basic GUI setup, a JFrame with a JPanel inside it.
         JFrame frame = new JFrame("Tic Tac Toe");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(
-                new Dimension(BOARD_DIMENSIONS, BOARD_DIMENSIONS));
         frame.setResizable(false);
         frame.addMouseListener(this);
 
         JPanel outerPanel = new JPanel(new BorderLayout());
         mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
         score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
-        outerPanel.setPreferredSize(new Dimension(BOARD_DIMENSIONS + 100, BOARD_DIMENSIONS + 100));
+        //outerPanel.setPreferredSize(new Dimension(BOARD_DIMENSIONS + 100, BOARD_DIMENSIONS + 100));
 
         bottomPanel = new JPanel(new FlowLayout());
         newGame = new JButton("New Game");
@@ -92,6 +90,11 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         outerPanel.add(bottomPanel, BorderLayout.SOUTH);
         // JPanel with a paintComponent method using an anonymous class.
         panel = new JPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(BOARD_DIMENSIONS, BOARD_DIMENSIONS);
+            }
+            
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
