@@ -46,6 +46,8 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
     private JButton newGame;
     private JButton reset;
 
+    private boolean gameOver = false;
+
     public TicTacToe() {
 
         boardColors = new Color[3][3];
@@ -152,6 +154,12 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
      */
     @Override
     public void mousePressed(MouseEvent e) {
+        if (gameOver) {
+            resetBoard();
+            gameOver = false;
+            return;
+        }
+
         int x = e.getX();
         int y = e.getY();
         boolean validMove = false;
@@ -176,36 +184,24 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
         panel.repaint();
 
         if (checkWin()) {
-            if (isXTurn) {
-                System.out.println("X wins!");
-                xScore++;
-            } else {
-                System.out.println("O wins!");
-                oScore++;
-            }
-            score.setText("Score: " + xScore + " - " + oScore);
-            // Reset the board
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    boardColors[i][j] = BACKGROUND_COLOR;
+            win(isXTurn);
+        } else {
+
+            if (validMove) {
+                isXTurn = !isXTurn;
+
+                if (isXTurn) {
+                    mainText.setText("X's turn");
+                } else {
+                    mainText.setText("O's turn");
                 }
             }
-            isXTurn = true;
-            panel.repaint();
-        } else if (validMove) {
-            isXTurn = !isXTurn;
 
-            if (isXTurn) {
-                mainText.setText("X's turn");
-            } else {
-                mainText.setText("O's turn");
+            if (checkFilled() && !checkWin()) {
+                System.out.println("It's a draw!");
+                // Reset the board
+                resetBoard();
             }
-        }
-
-        if (checkFilled() && !checkWin()) {
-            System.out.println("It's a draw!");
-            // Reset the board
-            resetBoard();
         }
 
     }
@@ -257,6 +253,23 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
         }
 
         return false;
+    }
+
+    /**
+     * Handles the win condition by updating the score and resetting the board.
+     * 
+     */
+    private void win(boolean isXWin) {
+        if (isXWin) {
+            xScore++;
+            mainText.setText("X wins! Click to play again.");
+        } else {
+            oScore++;
+            mainText.setText("O wins! Click to play again.");
+        }
+        score.setText("Score: " + xScore + " - " + oScore);
+        gameOver = true;
+
     }
 
     /**
