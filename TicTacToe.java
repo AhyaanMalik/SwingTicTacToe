@@ -8,8 +8,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import java.awt.FlowLayout;
 
 /**
  * Tic Tac Toe in Swing
@@ -23,7 +25,7 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private final Color BACKGROUND_COLOR = Color.PINK;
 
-    private static final int BOARD_DIMENSIONS = 600;
+    private static final int BOARD_DIMENSIONS = 810;
 
     private Color[][] boardColors;
 
@@ -36,6 +38,11 @@ public class TicTacToe extends MouseAdapter implements Runnable {
 
     private int xScore = 0;
     private int oScore = 0;
+
+    private JPanel bottomPanel;
+
+    private JButton newGame;
+    private JButton reset;
 
     public TicTacToe() {
 
@@ -73,8 +80,16 @@ public class TicTacToe extends MouseAdapter implements Runnable {
         mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
         score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
         outerPanel.setPreferredSize(new Dimension(BOARD_DIMENSIONS + 100, BOARD_DIMENSIONS + 100));
+
+        bottomPanel = new JPanel(new FlowLayout());
+        newGame = new JButton("New Game");
+        reset = new JButton("Reset");
+        bottomPanel.add(newGame);
+        bottomPanel.add(score);
+        bottomPanel.add(reset);
+
         outerPanel.add(mainText, BorderLayout.NORTH);
-        outerPanel.add(score, BorderLayout.SOUTH);
+        outerPanel.add(bottomPanel, BorderLayout.SOUTH);
         // JPanel with a paintComponent method using an anonymous class.
         panel = new JPanel() {
             @Override
@@ -85,8 +100,10 @@ public class TicTacToe extends MouseAdapter implements Runnable {
                     for (int j = 0; j < 3; j++) {
                         g.setColor(boardColors[i][j]);
                         if (boardColors[i][j] == Color.RED) {
+                            // Draw X for red
                             g.fillRect(boardCenters[i][j].x - 10, boardCenters[i][j].y - 10, 20, 20);
                         } else if (boardColors[i][j] == Color.BLUE) {
+                            // Draw circle for blue
                             g.fillOval(boardCenters[i][j].x - 20, boardCenters[i][j].y - 20, 40, 40);
                             g.setColor(BACKGROUND_COLOR);
                             g.fillOval(boardCenters[i][j].x - 10, boardCenters[i][j].y - 10, 20, 20);
