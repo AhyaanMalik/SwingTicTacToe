@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.Flow;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -27,6 +29,7 @@ public class NormalMode extends MouseAdapter implements ActionListener {
     private JPanel boardPanel;
 
     private final Color BACKGROUND_COLOR = GameConstants.BACKGROUND_COLOR;
+    private final Color SECONDARY_COLOR = GameConstants.SECONDARY_COLOR;
 
     private static final int BOARD_DIMENSIONS = GameConstants.BOARD_DIMENSIONS;
 
@@ -111,18 +114,41 @@ public class NormalMode extends MouseAdapter implements ActionListener {
 
         // Bottom panel
         score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
+        score.setFont(score.getFont().deriveFont(14.0f));
+
         newGame = new JButton("New Game");
         newGame.addActionListener(this);
         reset = new JButton("Reset");
         reset.addActionListener(this);
         backButton = new JButton("Back to Menu");
-        backButton.addActionListener(e -> cardLayout.show(cards, "Menu"));
 
-        bottomPanel = new JPanel(new FlowLayout());
-        bottomPanel.add(backButton);
-        bottomPanel.add(newGame);
-        bottomPanel.add(score);
-        bottomPanel.add(reset);
+        // Experimenting with new way of implementing actionlisteners
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cards, "Menu");
+            }
+        });
+
+        backButton.setBackground(BACKGROUND_COLOR);
+        newGame.setBackground(BACKGROUND_COLOR);
+        reset.setBackground(BACKGROUND_COLOR);
+
+        bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(SECONDARY_COLOR);
+
+        JPanel leftButtons = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftButtons.setBackground(SECONDARY_COLOR);
+        leftButtons.add(backButton);
+
+        JPanel rightButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightButtons.setBackground(SECONDARY_COLOR);
+        rightButtons.add(newGame);
+        rightButtons.add(reset);
+
+        bottomPanel.add(leftButtons, BorderLayout.WEST);
+        bottomPanel.add(score, BorderLayout.CENTER);
+        bottomPanel.add(rightButtons, BorderLayout.EAST);
 
         panel.add(bottomPanel, BorderLayout.SOUTH);
     }

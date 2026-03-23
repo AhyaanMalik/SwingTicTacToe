@@ -51,7 +51,7 @@ public class MainGame implements ActionListener, Runnable {
     @Override
     public void run() {
         // Our basic GUI setup, a JFrame with a JPanel inside it.
-        frame = new JFrame("Main Menu");
+        frame = new JFrame("Tic Tac Toe");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
