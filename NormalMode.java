@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
  * @author Ahyaan Malik
  * @version 3/20/2026
  */
-public class TicTacToe extends MouseAdapter implements ActionListener, Runnable {
+public class NormalMode extends MouseAdapter implements ActionListener, Runnable {
 
     private JPanel panel;
 
@@ -33,13 +33,6 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
     private Color[][] boardColors;
 
     private Point[][] boardCenters;
-
-    private JComboBox modes;
-
-    private String currRoundMode = "Normal";
-
-    private String nextRoundMode = "Normal";
-    private JLabel nextRoundMsg = new JLabel("");
 
     private boolean isXTurn = true;
 
@@ -56,7 +49,7 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
 
     private boolean gameOver = false;
 
-    public TicTacToe() {
+    public NormalMode() {
 
         boardColors = new Color[3][3];
         for (int i = 0; i < 3; i++) {
@@ -81,13 +74,13 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
     @Override
     public void run() {
         // Our basic GUI setup, a JFrame with a JPanel inside it.
-        JFrame frame = new JFrame("Tic Tac Toe");
+        JFrame frame = new JFrame("Tic Tac Toe (Normal Mode)");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.addMouseListener(this);
 
         JPanel outerPanel = new JPanel(new BorderLayout());
-        mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
+        mainText = new JLabel("Tic Tac Toe (Normal Mode)", SwingConstants.CENTER);
         score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
 
         bottomPanel = new JPanel(new FlowLayout());
@@ -96,11 +89,6 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
         reset = new JButton("Reset");
         reset.addActionListener(this);
 
-        modes = new JComboBox(new String[] { "Normal", "Dice Mode" });
-        modes.addActionListener(this);
-
-        bottomPanel.add(modes);
-        bottomPanel.add(nextRoundMsg);
         bottomPanel.add(newGame);
         bottomPanel.add(score);
         bottomPanel.add(reset);
@@ -220,11 +208,6 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == modes) {
-            currRoundMode = (String) modes.getSelectedItem();
-            nextRoundMsg.setText("Next round: " + currRoundMode);
-        }
         String buttonText = e.getActionCommand();
 
         if (buttonText.equals("New Game")) {
@@ -327,6 +310,6 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
      * that will construct and show the GUI.
      */
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new TicTacToe());
+        SwingUtilities.invokeLater(new NormalMode());
     }
 }
