@@ -36,9 +36,11 @@ public class MainGame implements ActionListener, Runnable {
     private JButton normalMode;
     private JButton diceMode;
 
-    private final Color BACKGROUND_COLOR = Color.PINK;
+    private final Color BACKGROUND_COLOR = GameConstants.BACKGROUND_COLOR;
 
-    private static final int BOARD_DIMENSIONS = 600;
+    private final Color SECONDARY_COLOR = GameConstants.SECONDARY_COLOR;
+
+    private static final int BOARD_DIMENSIONS = GameConstants.BOARD_DIMENSIONS;
 
     public MainGame() {
     }
@@ -68,14 +70,17 @@ public class MainGame implements ActionListener, Runnable {
         panel.add(mainText, BorderLayout.NORTH);
 
         buttons = new JPanel(new FlowLayout());
+        buttons.setBackground(BACKGROUND_COLOR);
         normalMode = new JButton("Normal Mode");
+        normalMode.setBackground(SECONDARY_COLOR);
         normalMode.addActionListener(this);
         diceMode = new JButton("Dice Mode");
+        diceMode.setBackground(SECONDARY_COLOR);
         diceMode.addActionListener(this);
         buttons.add(normalMode);
         buttons.add(diceMode);
         panel.add(buttons, BorderLayout.CENTER);
-        panel.setBackground(BACKGROUND_COLOR);
+        panel.setBackground(SECONDARY_COLOR);
 
         // CardLayout
         cards.add(panel, MENU_CARD);

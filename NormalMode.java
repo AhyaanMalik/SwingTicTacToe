@@ -26,9 +26,9 @@ public class NormalMode extends MouseAdapter implements ActionListener {
 
     private JPanel boardPanel;
 
-    private final Color BACKGROUND_COLOR = Color.PINK;
+    private final Color BACKGROUND_COLOR = GameConstants.BACKGROUND_COLOR;
 
-    private static final int BOARD_DIMENSIONS = 600;
+    private static final int BOARD_DIMENSIONS = GameConstants.BOARD_DIMENSIONS;
 
     private Color[][] boardColors;
 
