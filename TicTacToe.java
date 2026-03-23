@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
@@ -32,6 +33,8 @@ public class TicTacToe extends MouseAdapter implements ActionListener, Runnable 
     private Color[][] boardColors;
 
     private Point[][] boardCenters;
+
+    private JComboBox modes = new JComboBox(new String[] { "Normal", "Dice Mode" });
 
     private boolean isXTurn = true;
 
