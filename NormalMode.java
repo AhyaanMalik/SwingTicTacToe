@@ -1,30 +1,30 @@
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Tic Tac Toe in Swing
+ * Tic Tac Toe in Swing (Normal Mode)
  * 
  * @author Ahyaan Malik
  * @version 3/20/2026
  */
-public class NormalMode extends MouseAdapter implements ActionListener, Runnable {
+public class NormalMode extends MouseAdapter implements ActionListener {
 
     private JPanel panel;
+
+    private JPanel boardPanel;
 
     private final Color BACKGROUND_COLOR = Color.PINK;
 
@@ -47,9 +47,13 @@ public class NormalMode extends MouseAdapter implements ActionListener, Runnable
     private JButton newGame;
     private JButton reset;
 
+    private JButton backButton;
+
     private boolean gameOver = false;
 
-    public NormalMode() {
+    public NormalMode(CardLayout cardLayout, JPanel cards) {
+
+        panel = new JPanel(new BorderLayout());
 
         boardColors = new Color[3][3];
         for (int i = 0; i < 3; i++) {
@@ -65,38 +69,12 @@ public class NormalMode extends MouseAdapter implements ActionListener, Runnable
                         j * BOARD_DIMENSIONS / 3 + BOARD_DIMENSIONS / 6);
             }
         }
-
-    }
-
-    /**
-     * The run method to set up the GUI.
-     */
-    @Override
-    public void run() {
-        // Our basic GUI setup, a JFrame with a JPanel inside it.
-        JFrame frame = new JFrame("Tic Tac Toe (Normal Mode)");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.addMouseListener(this);
-
-        JPanel outerPanel = new JPanel(new BorderLayout());
+        // Top label
         mainText = new JLabel("Tic Tac Toe (Normal Mode)", SwingConstants.CENTER);
-        score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
+        panel.add(mainText, BorderLayout.NORTH);
 
-        bottomPanel = new JPanel(new FlowLayout());
-        newGame = new JButton("New Game");
-        newGame.addActionListener(this);
-        reset = new JButton("Reset");
-        reset.addActionListener(this);
-
-        bottomPanel.add(newGame);
-        bottomPanel.add(score);
-        bottomPanel.add(reset);
-
-        outerPanel.add(mainText, BorderLayout.NORTH);
-        outerPanel.add(bottomPanel, BorderLayout.SOUTH);
-        // JPanel with a paintComponent method using an anonymous class.
-        panel = new JPanel() {
+        // Board panel
+        boardPanel = new JPanel() {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(BOARD_DIMENSIONS, BOARD_DIMENSIONS);
@@ -110,10 +88,8 @@ public class NormalMode extends MouseAdapter implements ActionListener, Runnable
                     for (int j = 0; j < 3; j++) {
                         g.setColor(boardColors[i][j]);
                         if (boardColors[i][j] == Color.RED) {
-                            // Draw X for red
                             g.fillRect(boardCenters[i][j].x - 10, boardCenters[i][j].y - 10, 20, 20);
                         } else if (boardColors[i][j] == Color.BLUE) {
-                            // Draw circle for blue
                             g.fillOval(boardCenters[i][j].x - 20, boardCenters[i][j].y - 20, 40, 40);
                             g.setColor(BACKGROUND_COLOR);
                             g.fillOval(boardCenters[i][j].x - 10, boardCenters[i][j].y - 10, 20, 20);
@@ -121,28 +97,38 @@ public class NormalMode extends MouseAdapter implements ActionListener, Runnable
                     }
                 }
 
-                // BLACK GRID LINES
                 g.setColor(Color.BLACK);
                 for (int i = 0; i < 2; i++) {
                     g.drawLine((i + 1) * BOARD_DIMENSIONS / 3, 0, (i + 1) * BOARD_DIMENSIONS / 3, BOARD_DIMENSIONS);
                     g.drawLine(0, (i + 1) * BOARD_DIMENSIONS / 3, BOARD_DIMENSIONS, (i + 1) * BOARD_DIMENSIONS / 3);
                 }
-
             }
         };
 
-        panel.setBackground(BACKGROUND_COLOR);
+        boardPanel.setBackground(BACKGROUND_COLOR);
+        boardPanel.addMouseListener(this);
+        panel.add(boardPanel, BorderLayout.CENTER);
 
-        // Add a mouse listener to the panel to respond to mouse events.
-        panel.addMouseListener(this);
+        // Bottom panel
+        score = new JLabel("Score: " + xScore + " - " + oScore, SwingConstants.CENTER);
+        newGame = new JButton("New Game");
+        newGame.addActionListener(this);
+        reset = new JButton("Reset");
+        reset.addActionListener(this);
+        backButton = new JButton("Back to Menu");
+        backButton.addActionListener(e -> cardLayout.show(cards, "Menu"));
 
-        outerPanel.add(panel);
+        bottomPanel = new JPanel(new FlowLayout());
+        bottomPanel.add(backButton);
+        bottomPanel.add(newGame);
+        bottomPanel.add(score);
+        bottomPanel.add(reset);
 
-        frame.add(outerPanel);
+        panel.add(bottomPanel, BorderLayout.SOUTH);
+    }
 
-        // Display the window we've created.
-        frame.pack();
-        frame.setVisible(true);
+    public JPanel getPanel() {
+        return panel;
     }
 
     /**
@@ -303,13 +289,5 @@ public class NormalMode extends MouseAdapter implements ActionListener, Runnable
         isXTurn = true;
         mainText.setText("Tic Tac Toe");
         panel.repaint();
-    }
-
-    /**
-     * The main method is responsible for creating a thread
-     * that will construct and show the GUI.
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new NormalMode());
     }
 }

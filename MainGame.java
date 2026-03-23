@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.smartcardio.Card;
 import javax.swing.JButton;
 import java.awt.CardLayout;
 import javax.swing.SwingConstants;
@@ -55,14 +54,14 @@ public class MainGame implements ActionListener, Runnable {
         frame.setResizable(false);
 
         cardLayout = new CardLayout();
-        cards = new JPanel(cardLayout);
-
-        panel = new JPanel(new BorderLayout()) {
+        cards = new JPanel(cardLayout) {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(BOARD_DIMENSIONS, BOARD_DIMENSIONS);
             }
         };
+
+        panel = new JPanel(new BorderLayout());
 
         mainText = new JLabel("Tic Tac Toe", SwingConstants.CENTER);
         mainText.setFont(mainText.getFont().deriveFont(48.0f));
@@ -76,11 +75,16 @@ public class MainGame implements ActionListener, Runnable {
         buttons.add(normalMode);
         buttons.add(diceMode);
         panel.add(buttons, BorderLayout.CENTER);
-
         panel.setBackground(BACKGROUND_COLOR);
 
-        frame.add(panel);
+        // CardLayout
+        cards.add(panel, MENU_CARD);
+        cards.add(new NormalMode(cardLayout, cards).getPanel(), NORMAL_MODE_CARD);
+        // cards.add(new DiceMode(cardLayout, cards), DICE_MODE_CARD);
 
+        cardLayout.show(cards, MENU_CARD);
+
+        frame.add(cards);
         // Display the window we've created.
         frame.pack();
         frame.setVisible(true);
@@ -91,7 +95,7 @@ public class MainGame implements ActionListener, Runnable {
         String buttonText = e.getActionCommand();
 
         if (buttonText.equals("Normal Mode")) {
-            SwingUtilities.invokeLater(new NormalMode());
+            cardLayout.show(cards, NORMAL_MODE_CARD);
         } else if (buttonText.equals("Dice Mode")) {
             System.out.println("Coming Soon!");
         }
