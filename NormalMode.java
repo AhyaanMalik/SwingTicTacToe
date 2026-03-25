@@ -224,6 +224,7 @@ public class NormalMode extends MouseAdapter implements ActionListener {
 
         if (buttonText.equals("New Game")) {
             resetBoard();
+            score.setText("Score: " + xScore + " - " + oScore);
         } else if (buttonText.equals("Reset")) {
             resetBoard();
             xScore = 0;
@@ -313,7 +314,7 @@ public class NormalMode extends MouseAdapter implements ActionListener {
             }
         }
         isXTurn = true;
-        mainText.setText("Tic Tac Toe");
+        mainText.setText("X's turn");
         panel.repaint();
     }
 }
