@@ -210,9 +210,9 @@ public class NormalMode extends MouseAdapter implements ActionListener {
             }
 
             if (checkFilled() && !checkWin()) {
-                System.out.println("It's a draw!");
+                mainText.setText("It's a draw! Click to play again.");
                 // Reset the board
-                resetBoard();
+                gameOver = true;
             }
         }
 
