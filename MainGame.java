@@ -85,7 +85,7 @@ public class MainGame implements ActionListener, Runnable {
         // CardLayout
         cards.add(panel, MENU_CARD);
         cards.add(new NormalMode(cardLayout, cards).getPanel(), NORMAL_MODE_CARD);
-        // cards.add(new DiceMode(cardLayout, cards), DICE_MODE_CARD);
+        cards.add(new DiceMode(cardLayout, cards).getPanel(), DICE_MODE_CARD);
 
         cardLayout.show(cards, MENU_CARD);
 
@@ -102,7 +102,7 @@ public class MainGame implements ActionListener, Runnable {
         if (buttonText.equals("Normal Mode")) {
             cardLayout.show(cards, NORMAL_MODE_CARD);
         } else if (buttonText.equals("Dice Mode")) {
-            System.out.println("Coming Soon!");
+            cardLayout.show(cards, DICE_MODE_CARD);
         }
     }
 
