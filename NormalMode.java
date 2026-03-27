@@ -209,9 +209,9 @@ public class NormalMode extends MouseAdapter implements ActionListener {
             }
 
             if (checkFilled() && !checkWin()) {
-                System.out.println("It's a draw!");
+                mainText.setText("It's a draw! Click to play again.");
                 // Reset the board
-                resetBoard();
+                gameOver = true;
             }
         }
 
@@ -223,6 +223,7 @@ public class NormalMode extends MouseAdapter implements ActionListener {
 
         if (buttonText.equals("New Game")) {
             resetBoard();
+            score.setText("Score: " + xScore + " - " + oScore);
         } else if (buttonText.equals("Reset")) {
             resetBoard();
             xScore = 0;
@@ -312,7 +313,7 @@ public class NormalMode extends MouseAdapter implements ActionListener {
             }
         }
         isXTurn = true;
-        mainText.setText("Tic Tac Toe");
+        mainText.setText("X's turn");
         panel.repaint();
     }
 }
